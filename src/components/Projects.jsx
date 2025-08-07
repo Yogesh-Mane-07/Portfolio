@@ -34,8 +34,8 @@ const Projects = () => {
       "projectType": "Mobile Ride-Sharing Application"
     },
     {
-      "sourceCodeLink": "https://github.com/yogesh-mane-07/tic-tac-toe",
-      "deployedLink": "https://yogesh-mane-07.github.io/tic-tac-toe/",
+      "sourceCodeLink": "https://github.com/Yogesh-Mane-07/AI_travel_planner",
+      "deployedLink": "",
       "name": "AI Travel Planner",
       "description": "The AI Travel Planner is an intelligent web application designed to simplify trip planning by leveraging cutting-edge Artificial Intelligence. Users simply input their current location and desired destination, and the system instantly generates a comprehensive travel itinerary. This includes detailed suggestions for hotels tailored to various budgets (budget-friendly to luxury), estimated travel costs, and personalized recommendations for activities and attractions. Built with a responsive React.js frontend for an intuitive user experience and a robust Java Spring Boot backend for powerful AI and external API integrations (like Google Maps, hotel booking platforms, and flight APIs), it aims to be the ultimate companion for hassle-free travel.",
       "languages": "React JS | Java | Spring Boot | MongoDB | Google AI (Gemini/GPT) | Google Maps API | Hotel Booking APIs | Flight Booking APIs | Weather APIs",
