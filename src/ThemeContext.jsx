@@ -1,45 +1,39 @@
 // src/ThemeContext.js
 import { createContext, useState, useEffect } from "react";
 
+// Create the ThemeContext. This will be used by components to access the theme state and toggle function.
 export const ThemeContext = createContext();
 
+// ThemeProvider component. This wraps your entire application (or the parts that need theme access).
 export const ThemeProvider = ({ children }) => {
-  const getInitialTheme = () => {
+  // State to hold the current theme. Initialize directly from localStorage or default to "dark".
+  // This prevents a brief flash of incorrect theme on initial load.
+  const [theme, setTheme] = useState(() => {
     const saved = localStorage.getItem("theme");
-    if (saved) return saved; // User preference saved
+    // Ensure "dark" is the default if no theme is saved
+    return saved || "dark";
+  });
 
-    // Detect system/browser theme
-    const prefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
-    return prefersDark ? "dark" : "light";
-  };
-
-  const [theme, setTheme] = useState(getInitialTheme);
-
+  // useEffect hook to apply the theme class to the <html> element.
+  // This is crucial for Tailwind CSS's dark mode to work correctly.
   useEffect(() => {
-    const root = document.documentElement;
+    const root = window.document.documentElement; // Get the <html> element
+    // Remove both 'light' and 'dark' classes first to ensure only the current theme is applied
     root.classList.remove("light", "dark");
+    // Add the current theme class
     root.classList.add(theme);
+    // Save the current theme to local storage
     localStorage.setItem("theme", theme);
-  }, [theme]);
+  }, [theme]); // Re-run this effect whenever the 'theme' state changes
 
-  // Also listen for OS/browser theme changes in real-time
-  useEffect(() => {
-    const mediaQuery = window.matchMedia("(prefers-color-scheme: dark)");
-    const handleChange = () => {
-      if (!localStorage.getItem("theme")) {
-        // Only auto-switch if user hasn't explicitly chosen a theme
-        setTheme(mediaQuery.matches ? "dark" : "light");
-      }
-    };
-
-    mediaQuery.addEventListener("change", handleChange);
-    return () => mediaQuery.removeEventListener("change", handleChange);
-  }, []);
-
+  // Function to toggle the theme between "light" and "dark".
   const toggleTheme = () => {
-    setTheme((prev) => (prev === "light" ? "dark" : "light"));
+    // Determine the new theme based on the current theme
+    const newTheme = theme === "light" ? "dark" : "light";
+    setTheme(newTheme); // Update the theme state, which triggers the useEffect above
   };
 
+  // Provide the theme state and toggle function to all children components
   return (
     <ThemeContext.Provider value={{ theme, toggleTheme }}>
       {children}
